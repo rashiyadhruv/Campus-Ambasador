@@ -1,0 +1,32 @@
+<% layout('./layout/boilerplate.ejs') %>
+
+<form action="/registration" method="POST" id="registeratioForm" novalidate>
+    <h1 class="display-5 my-3 text-center text-dark" style="text-transform: uppercase;font-weight: bold;">Ambassador Registration</h1>
+
+    <div class="mb-3">
+        <label for="username" class="form-label text-dark">Name</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Username"
+            required>
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label text-dark">Email address</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="mail"
+            placeholder="Email" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="college" class="form-label text-dark">College Name</label>
+        <input type="text" class="form-control" id="college" name="college" placeholder="College Name"
+            required>
+    </div>
+
+    <div class="mb-3">
+        <label for="contact" class="form-label text-dark">Contact Info.</label>
+        <input type="contact" class="form-control" id="contact" name="contact"
+            placeholder="Contact Info." required>
+    </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>

@@ -1,0 +1,32 @@
+<% layout('./layout/boilerplate.ejs') %>
+
+<% for(let ambasinfo of ambasinfos) { %>
+<div class="card text-dark" style="width: 20rem; background: none;border: 2px solid black;">
+    <!-- <img src="..." class="card-img-top" alt="..."> -->
+    <div class="card-body">
+        <h3 class="text-primary">
+            <%= ambasinfo.name %> 
+        </h3>
+        <h4>Total Referals: <%= ambasinfo.referals %></h4>
+        <a href="/update/<%= ambasinfo._id %>" class="btn btn-warning">Edit Referals</a>
+    </div>
+</div>
+<% }%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

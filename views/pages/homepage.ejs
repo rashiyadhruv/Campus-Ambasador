@@ -1,0 +1,16 @@
+<% layout('./layout/boilerplate.ejs') %>
+<a href="/admin">hoho</a>
+</br>
+<a href="/register">Hehe</a>
+
+<% for(let ambasinfo of ambasinfos) { %>
+<div class="card text-dark" style="width: 18rem; background: none;border: 2px solid black;">
+    <!-- <img src="..." class="card-img-top" alt="..."> -->
+    <div class="card-body">
+        <h2 class="card-title diplay-6">
+            <%= ambasinfo.name %> 
+        </h2>
+        <h5 class="card-title">Total Wins: <%= ambasinfo.referals %></h5>
+    </div>
+</div>
+<% }%>
