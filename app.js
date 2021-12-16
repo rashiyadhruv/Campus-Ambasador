@@ -21,21 +21,38 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-
-var c1=0;
-var c2=0;
-var c3=0;
-var c4=0;
+var c1 = 0;
+var c2 = 0;
+var c3 = 0;
+var c4 = 0;
+var c5 = 0;
 
 app.get("/", async (req, res) => {
   const ambasinfos = await Ambassador.find();
 
-  // for (ambasinfo of ambasinfos) {
-  //   if (ambasinfo == "IIIT Vadodara") {
-  //     c1++;
-  //   }
-  // }
-  // console.log(c1);
+  c1=0;c2=0;c3=0;c4=0;
+  for (i = 0; i < ambasinfos.length; i++) {
+    if (ambasinfos[i].college == "IIT Bhuvneshwar") {
+      c1++;
+    }
+  }
+  for (i = 0; i < ambasinfos.length; i++) {
+    if (ambasinfos[i].college == "IIIT Vadodara") {
+      c2++;
+    }
+  }
+  for (i = 0; i < ambasinfos.length; i++) {
+    if (ambasinfos[i].college == "IIIT Diu") {
+      c3++;
+    }
+  }
+  for (i = 0; i < ambasinfos.length; i++) {
+    if (ambasinfos[i].college == "Nirma") {
+      c4++;
+    }
+  }
+
+  console.log(c2);
 
   res.render("pages/homepage.ejs", { ambasinfos });
 });
@@ -46,9 +63,8 @@ app.get("/register", (req, res) => {
 
 app.get("/admin", async (req, res) => {
   const ambasinfos = await Ambassador.find();
-  res.render("pages/admin.ejs",{ambasinfos});
+  res.render("pages/admin.ejs", { ambasinfos });
 });
-
 
 app.post("/registration", async (req, res) => {
   const { username, mail, college, contact } = req.body;
@@ -59,35 +75,35 @@ app.post("/registration", async (req, res) => {
     contact: contact,
   });
 
-  if (ambassador.college == "IIIT Vadodara" && c1 <= 3) {
+  if (ambassador.college == "IIIT Bhuvneshwar" && c1 <= 3) {
     await ambassador.save();
 
     console.log(ambassador);
-    c1=c1 + 1;
+    c1 = c1 + 1;
     console.log(c1);
     res.redirect(`/`);
   }
-  if (ambassador.college == "IIT Bhuvneshwar" && c2 <= 3) {
+  else if (ambassador.college == "IIT Vadodara" && c2 <= 3) {
     await ambassador.save();
 
     console.log(ambassador);
-    c2=c2 + 1;
+    c2 = c2 + 1;
     console.log(c2);
     res.redirect(`/`);
   }
-  if (ambassador.college == "IIIT Diu" && c3 <= 3) {
+  else if (ambassador.college == "IIIT Diu" && c3 <= 3) {
     await ambassador.save();
 
     console.log(ambassador);
-    c3=c3 + 1;
+    c3 = c3 + 1;
     console.log(c3);
     res.redirect(`/`);
   }
-  if (ambassador.college == "Nirma" && c1 <= 4) {
+  else if (ambassador.college == "Nirma" && c1 <= 4) {
     await ambassador.save();
 
     console.log(ambassador);
-    c4=c4 + 1;
+    c4 = c4 + 1;
     console.log(c4);
     res.redirect(`/`);
   } else {
