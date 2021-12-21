@@ -2,9 +2,10 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
+const bcrypt = require ('bcrypt');
 const methodOverride = require("method-override");
 const Ambassador = require("./models/ambassador");
-
+const saltRounds = 10;
 // Establishing MongoConnection
 mongoose.connect("mongodb://localhost:27017/camambData");
 const db = mongoose.connection;
@@ -26,6 +27,14 @@ var c2 = 0;
 var c3 = 0;
 var c4 = 0;
 var c5 = 0;
+var password='Kreiva@)@@';
+var hashpass;
+bcrypt.genSalt(saltRounds, function(err, salt) {
+  bcrypt.hash(password, salt, function(err, hash) {
+    hashpass=hash;
+    console.log(hash);
+  });
+});
 
 app.get("/", async (req, res) => {
   const ambasinfos = await Ambassador.find();
@@ -61,9 +70,13 @@ app.get("/register", (req, res) => {
   res.render("pages/register.ejs");
 });
 
-app.get("/admin", async (req, res) => {
+app.get("/adminLogin", async (req, res) => {
+  res.render("pages/adminLogin.ejs");
+});
+
+app.get("/updateRef", async(req, res) => {
   const ambasinfos = await Ambassador.find();
-  res.render("pages/admin.ejs", { ambasinfos });
+  res.render("pages/updateRef.ejs", { ambasinfos });
 });
 
 app.post("/registration", async (req, res) => {
@@ -75,7 +88,7 @@ app.post("/registration", async (req, res) => {
     contact: contact,
   });
 
-  if (ambassador.college == "IIIT Bhuvneshwar" && c1 <= 3) {
+  if (ambassador.college == "IIT Bhuvneshwar" && c1 <= 3) {
     await ambassador.save();
 
     console.log(ambassador);
@@ -83,7 +96,7 @@ app.post("/registration", async (req, res) => {
     console.log(c1);
     res.redirect(`/`);
   }
-  else if (ambassador.college == "IIT Vadodara" && c2 <= 3) {
+  else if (ambassador.college == "IIIT Vadodara" && c2 <= 3) {
     await ambassador.save();
 
     console.log(ambassador);
@@ -111,19 +124,44 @@ app.post("/registration", async (req, res) => {
   }
 });
 
-app.get("/update/:id", async (req, res) => {
-  const { id } = req.params;
-  const persontoEdit = await Ambassador.findById(id);
-  res.render("pages/update.ejs", { persontoEdit, id });
+app.post("/adminLogin", async (req, res) => {
+  const { username, password } = req.body;
+  if(username == 'kreiva@2022')
+  {
+  bcrypt.compare(password, hashpass, function(err, result) {
+    if (result) {
+      res.redirect("/updateRef");
+    }
+    else {
+      res.redirect("/adminLogin");
+    }
+  });
+
+}
+  
+  
+  // if (username == 'kreiva@2022' && password == 'Kreiva@)@@')
+  // {
+  //   res.redirect("/updateRef");
+  // }
+  // else{
+  //   res.redirect("/adminLogin");
+  // }
 });
 
-app.post("/update/:id", async (req, res) => {
-  const { id } = req.params;
-  const personToEdit = await Ambassador.findById(id);
-  const { referals } = req.body;
-  personToEdit.referals = referals;
-  await personToEdit.save();
-  res.redirect("/admin");
+app.post("/updateRef", async (req, res) => {
+  const ambasinfo = await Ambassador.find();
+  const {p} = req.body;
+  console.log(p);
+
+  for (i = 0; i < ambasinfo.length; i++) 
+  {
+   ambasinfo[i].referals = p[i];
+   await ambasinfo[i].save();
+  }
+  console.log(ambasinfo);
+
+  res.redirect("/");
 });
 
 app.listen(8000, (req, res) => {

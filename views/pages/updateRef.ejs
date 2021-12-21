@@ -1,0 +1,28 @@
+<% layout('./layout/boilerplate.ejs') %>
+
+<form action="/updateRef" method="post" id="updateRef" novalidate>
+  <Table>
+    <th>NAME</th>
+    <th>CURRENT REFERALS</th>
+    <th>UPDATE</th>
+    <% for(let ambasinfo of ambasinfos) { %>
+    <tr>
+      <td><%= ambasinfo.name %></td>
+      <td><%= ambasinfo.referals %></td>
+      <td>
+        <input
+          type="text"
+          class="form-control"
+          id="Referals"
+          aria-describedby="textHelp"
+          name="p"
+          placeholder="Update"
+          required
+        />
+      </td>
+    </tr>
+
+    <% }%>
+  </Table>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
